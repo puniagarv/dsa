@@ -8,7 +8,7 @@ public:
         long long int d1=divisor1;
         long long int d2=divisor2;
         long long int lcm=(d1*d2)/__gcd(d1,d2);
-        long long int ans;
+        long long int ans; 
         while(l<=h)
         {
            long long int m=(l+h)/2;

@@ -1,0 +1,41 @@
+/*by using the concept of map 
+simply sort the element first arrange them according to
+time when they come 
+store them into vector and check if the size of vector is lesser then 3 then no check
+if it is greater than 3 then check for time if it in 1 hour or not
+*/
+
+//code
+class Solution {
+public:
+    vector<string> findHighAccessEmployees(vector<vector<string>>& access_times) {
+        
+        sort(access_times.begin(),access_times.end());
+        unordered_map<string,vector<string>>mp;
+         vector<string>ans;
+
+        for(auto it :access_times)
+        {
+            mp[it[0]].push_back(it[1]);
+        }
+
+        for(auto it:mp)
+        {  
+            if(it.second.size() < 3)continue;
+           for(int i=0;i<it.second.size()-2;i++)
+           {
+               int x=abs(stoi(it.second[i])-stoi(it.second[i+2]));
+               if(x < 100)
+               {
+                   ans.push_back(it.first);
+                   break;
+               }
+           }
+        }
+
+
+        return ans;
+     
+
+    }
+};

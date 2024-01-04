@@ -1,0 +1,60 @@
+/*this is the wonderful question can be done using o(1) approch or o(n) approach
+let discuss first o(1) approach
+1. In this approach first consider size of the matrix 
+    in row and col as i,j then iterate over each column 
+    if column get used then jump to next row 
+
+2. follow these 3 condition 
+    int I=i,J=j used to store the curr value then check is   
+   there possibility to move further
+    if(j+1<n) j++ if not then check is there any row left
+    if(i+1<m)i++,j=0 if not satisfy then back to i=0,j=0;
+
+2nd method by using hash map
+   here we used the random function 
+   and used the virtual represntation of 2d matrix
+  make the range as key then call random function in that range of key and reduces the key so that generated key always in range
+  */
+
+//code 
+class Solution {
+public:
+    int i=0;
+    int j=0;
+    int n,m;
+    Solution(int m, int n) {
+        this->n=n;
+        this->m=m;
+    }
+    
+    vector<int> flip() {
+       
+        int I=i,J=j;
+
+        if(j+1< n)j++;
+        else
+        {
+            if(i+1< m)
+            {
+                i++;
+                j=0;
+            }
+        
+        else i=0,j=0;
+        }
+        return {i,j};
+       
+    }
+    
+    void reset() 
+    {
+        
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(m, n);
+ * vector<int> param_1 = obj->flip();
+ * obj->reset();
+ */

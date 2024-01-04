@@ -1,0 +1,63 @@
+//good question there are many approaches to do this question
+// Ist approach which take Tc o(n) and s.c o(n) by usig map
+// 2nd approach by using simple maths using concept of sum of natural and sone of sqaure of natural number
+// 3rd approach by using the swap sort which is important one it state that 
+// v=[1,2,3,4,5] then every element present at index i statisfy this v[i]=i+1 condition
+
+//code
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    vector<int> findTwoElement(vector<int> arr, int n) {
+        // code here
+        
+      int i=0;
+      int m,r;
+      
+      while(i<n)
+      {
+          while(arr[i]!=i+1)
+          { 
+            if(arr[i]!=arr[arr[i]-1])  
+            swap(arr[i],arr[arr[i]-1]);
+            
+            else
+            {
+              m=i+1,r=arr[i];
+              break;
+            }
+            
+          }
+          
+          i++;
+      }
+      return {r,m};
+       
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        Solution ob;
+        auto ans = ob.findTwoElement(a, n);
+        cout << ans[0] << " " << ans[1] << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends

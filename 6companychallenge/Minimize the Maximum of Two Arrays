@@ -1,0 +1,34 @@
+//usign the concept of binary for more detail solution use  solution notebook
+//code 
+class Solution {
+public:
+    int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+        long long int l=1;
+        long long int h=1e10;
+        long long int d1=divisor1;
+        long long int d2=divisor2;
+        long long int lcm=(d1*d2)/__gcd(d1,d2);
+        long long int ans;
+        while(l<=h)
+        {
+           long long int m=(l+h)/2;
+           long long int a=m-m/d1;
+           long long int b=m-m/d2;
+           long long int c=m-(m/d1+m/d2)+m/lcm;
+
+           if(a>=uniqueCnt1 && b>=uniqueCnt2 && a+b-c>=uniqueCnt1+uniqueCnt2)
+           {
+               ans=m;
+               h=m-1;
+           }
+           else
+           {
+               l=m+1;
+           }
+        }
+        return ans;
+       
+
+    }
+    
+};

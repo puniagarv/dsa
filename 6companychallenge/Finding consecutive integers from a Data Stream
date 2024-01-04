@@ -1,0 +1,63 @@
+// here we assume the element which  are diifer from val consider as 0 and store there coutz(no zeros)
+// whene we make the window of k and removing the first element the is it zero or not if it zero then reduces the countz
+
+
+
+
+// code
+class DataStream {
+public:
+    int value;
+    int k;
+    int countz=0;
+    vector<char>v;
+    bool flag=false;
+
+    DataStream(int value, int k) {
+        this->value=value;
+        this->k=k;
+    }
+    
+    bool consec(int num) {
+        
+       
+
+        if(num!=value)
+        {
+            v.push_back('0');
+            countz++;
+        }
+        else
+         v.push_back('1');
+
+        if(v.size()< k)return flag;
+        else
+        {   
+
+            if(v[0]=='0')
+            {
+                flag=false;
+                countz--;
+            }
+            else
+            flag=true;
+        
+            v.erase(v.begin(),v.begin()+1);
+
+        }
+
+         if(countz==0)
+          return flag;
+          else
+          return false;
+         
+          
+       }
+
+};
+
+/**
+ * Your DataStream object will be instantiated and called as such:
+ * DataStream* obj = new DataStream(value, k);
+ * bool param_1 = obj->consec(num);
+ */

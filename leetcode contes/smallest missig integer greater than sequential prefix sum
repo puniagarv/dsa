@@ -1,0 +1,52 @@
+/*Intuition
+Simple qustion pay more focus on the problem statement
+
+Approachate
+Complexity
+Time complexity:O(nlogn)
+Space complexity:o(1)
+Code
+*/
+class Solution {
+public:
+    int missingInteger(vector<int>& nums)
+    {
+        int n=nums.size();
+        int ans=nums[0];
+        int sum=nums[0];
+    
+        bool flag=true;
+        
+        for(int i=1;i<n;i++)
+        {
+            if(flag && nums[i]-nums[i-1]==1)
+            {
+                sum+=nums[i];
+                ans=max(ans,sum);
+               
+            }
+            else
+            {   
+                flag=false;
+                break;
+            }
+           
+         
+        }
+        
+        sort(nums.begin(),nums.end());
+        
+       
+       for(int i=0;i<n;i++)
+            {
+                if(ans==nums[i])
+                {
+                    ans++;
+                }
+            }
+         return ans;
+              
+        
+       
+    }
+};

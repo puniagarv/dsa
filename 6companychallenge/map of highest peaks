@@ -1,0 +1,56 @@
+//usign the bfs approach
+
+
+class Solution {
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& iswater) {
+        
+        int n=iswater.size();
+        int m=iswater[0].size();
+
+        vector<vector<int>>height(n,vector<int>(m,-1));
+        
+        int dx[]={1,0,-1,0};
+        int dy[]={0,1,0,-1};
+
+        queue<pair<int,int>>q;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(iswater[i][j]==1)
+                {
+                  height[i][j]=0;
+                  q.push({i,j});
+                }
+            }
+        }
+
+        while(!q.empty())
+        {
+           int i=q.front().first;
+           int j=q.front().second;
+           int temp=height[i][j];
+           
+           q.pop();
+
+           for(int k=0;k<4;k++)
+           {
+               int ix=i+dx[k];
+               int iy=j+dy[k];
+
+               if(ix >= 0 && ix < n && iy>=0 && iy < m)
+               {
+                   if(height[ix][iy]==-1)
+                   {
+                     height[ix][iy]=temp+1;
+                     q.push({ix,iy});
+                   }
+               }
+           }
+        }
+        return height;
+        
+    }
+};

@@ -1,0 +1,42 @@
+Intuition
+1 .Here first we check that difference between start and end is odd/even which is same as k if it is not then return 0 because it is not possible to complete the task within k exactly steps.
+
+2.think recursively that we are at start position then we can go one step ahead and one step back.until we reach at endpositio we check .
+
+Approach
+We use the dp to resolve this question and make dp such that it handle all cases it 2d dp;
+
+Complexity
+Time complexity:
+we make 2-d dp and traversing all position for only one time its complexity is o(n*n)
+
+Space complexity:
+o(n*n)+stack space o(n)
+
+Code
+class Solution {
+public:
+    int mod=1e9+7;
+   long long int sol(int x,int y,int k,vector<vector<int>>&dp)
+    {
+        
+        if(k==0)
+        {
+            if(x==y)return 1;
+            else return 0;
+        }
+
+        if(dp[x+999][k]!=-1)return dp[x+999][k];
+        
+        long long int ans=(sol(x-1,y,k-1,dp)%mod+sol(x+1,y,k-1,dp)%mod)%mod;
+       return dp[x+999][k]=ans%mod;
+    }
+    int numberOfWays(int startPos, int endPos, int k) {
+        
+ 
+        vector<vector<int>>dp(3000,vector<int>(k+1,-1));
+
+       return  sol(startPos,endPos,k,dp)%mod;
+    
+    }
+};

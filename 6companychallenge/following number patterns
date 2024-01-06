@@ -1,0 +1,77 @@
+// good problem 
+/* 
+OBSERVATION
+1. total number required is string size+1 (first n natural number)
+
+2. if we give more priority to increment then it is easy to handle case for example we have string which contain IIII then we know 
+    all number are sequencly arrange what if there d between then skip that d move to the next i with current value
+    
+3. but there is problem in these scenerio for eg let we have IIIDDII
+   now result must be 123-87-56
+
+but we use new approach here when we cross each i then we check s there any D left of I if yes then put value for that d and move 
+continuosuly 
+
+*/
+
+
+
+
+class Solution{   
+public:
+    string printMinNumberForPattern(string s){
+        // code here
+        
+       int n=s.size();
+       vector<char>v(n+1);
+       int count=1;
+       string ans;
+       
+       
+       for(int i=0;i<=n;i++)
+       {
+           if(i==n || s[i]=='I')
+           {   
+             
+                
+               for(int j=i-1;j>=-1;j--)
+               {
+                  
+                       v[j+1]=char(count+'0');
+                       count++;
+                    
+                    if(j>=0 && s[j]=='I')
+                    break;
+               }
+              
+           }
+           
+           
+       }
+       
+       for(auto it:v)
+       {
+           ans.push_back(it);
+       }
+       return ans;
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string S;
+        cin >> S;
+        Solution ob;
+        cout << ob.printMinNumberForPattern(S) << endl;
+    }
+    return 0; 
+} 
+
+// } Driver Code Ends

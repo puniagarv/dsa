@@ -1,0 +1,87 @@
+/*Intuition
+This question can be done using the dijsktra or bfs
+we have to find the best optimise path or we can say minimum path to reach the destination
+
+Approach
+By using the bfs and we have to maitain range in which bfs can be done
+
+Complexity
+Time complexity:
+o(n) where n=y-x when y>=x
+o(x+11)in worst case because we iterate overy possbile number which are bound in the range
+
+nearly o(1) for given constraint
+
+Space complexity:
+BFS explores a limited number of nodes within the range of x + 15, the space complexity for the hashmaps and the queue would also be bounded by the same limits.
+
+The space complexity for the queue and hashmaps would be at most O(10^4) in the worst case, as it depends on the number of unique states explored during the BFS traversal within this range.
+*/
+Code
+class Solution {
+public:
+    
+   
+    int minimumOperationsToMakeEqual(int x, int y)
+    {
+         if(y >= x)return (y-x);
+        
+        queue<pair<int,int>>q;
+        unordered_map<int,int>distance;
+        unordered_map<int,int>vis;
+
+        q.push({x,0});
+        vis[x]=1;
+        distance[x]=0;
+
+        while(!q.empty())
+        {
+           int size=q.size();
+
+           while(size--)
+           {
+               auto it=q.front();
+               q.pop();
+
+               int number=it.first;
+               int dis=it.second;
+
+               if(number%5==0 && !vis[number/5])
+                 { 
+                   vis[number/5]=1;
+                   distance[number/5]=dis+1;
+                   q.push({number/5,dis+1});
+                 }
+                    
+
+                if(number%11==0 && !vis[number/11])
+                { 
+                    vis[number/11]=1;
+                    distance[number/11]=dis+1;
+                    q.push({number/11,dis+1});
+                }
+
+                if(!vis[number+1] && (number+1) <= x+15)
+                { 
+                   vis[number+1]=1;
+                   distance[number+1]=dis+1;
+                   q.push({number+1,dis+1});
+                }
+                   
+
+                if(number-1 >= 1 && !vis[number-1])
+                 {
+                     vis[number-1]=1;
+                     distance[number-1]=dis+1;
+                     q.push({number-1,dis+1});
+                 }
+                
+           }
+
+        }
+        return distance[y];
+
+        
+        
+    }
+};

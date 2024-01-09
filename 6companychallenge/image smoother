@@ -1,0 +1,76 @@
+/*Intuition
+Problem language is bit and in first time not easy to understand what problem wants to convey but
+After checking the example i got.so basically problem state that for each cell we have to calculate
+avg by taking its 8 surrounding neighbour if exist and including itself.
+
+Approach
+
+for every cell we have to check its all member exist or not or count many neighbour element exist so t.c o(n * m * 8).
+
+Now space complexity vary how you procced the solution if question restrict on modification of img matrix then simply
+we have to construct the visi matrix and ans matrix.
+
+But if there is no restriction then it can be done in o(n) or o(1)space complexity 
+by using the bit manipluation we can done this question in o(1);
+
+Complexity
+
+Time complexity:
+o(n*m).
+
+Space complexity:
+o(1).
+*/
+Code
+class Solution {
+public:
+   
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) 
+    {   
+        int n=img.size();
+        int m=img[0].size();
+       
+        for(int i=0;i<n;i++)
+        {    
+             
+            for(int j=0;j<m;j++)
+            {   
+                 int sum=0;
+                 int count=0;
+
+                for(int x=i-1;x<=i+1;x++)
+                {
+                    for(int y=j-1;y<=j+1;y++)
+                    {  
+                        if(x >= 0 && x < n && y >= 0 && y < m)
+                        {
+                             sum+=img[x][y] & ((1<<8)-1);
+                             count++;
+                        }
+                        
+                    }
+                }
+
+                int temp=sum/count;
+
+                img[i][j]|=(temp<<8);//left shift to tore smoothen value with img value
+            }
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                img[i][j]=(img[i][j]>>8);
+            }
+        }
+        
+        return img;
+        
+    }
+};
+
+
+/*Note dekho every int numbe ko hum 32 bit m represent kr skte h or yaha pe constraint pe focus kre to wo itne bde nhi yaha pe
+ maxium value of element o h 255 jaa skti means wo maximum first 8bit use kreka or hmare pass baki bits empty pdi h
+to hm next 8 bit ko use krskte h apna answer ko store krane m */ 

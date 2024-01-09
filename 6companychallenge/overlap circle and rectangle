@@ -1,0 +1,39 @@
+/*Intuition
+as we know the smallest for overlapping condition circle and rectangle must touch each other or cut each other try to find the closest point on rectangle to the circle and compare to its radius if radius is lesser than distance between center of the circle and the point then they never collide
+
+Approach
+first check the position of the circle with respect to the rectangle min(xcenter,x2)
+find the point which is closest by max(x1,min(xcenter,x2))
+Do same for y
+Complexity
+Time complexity:
+o(1)
+
+Space complexity:
+o(1)
+
+Code*/
+
+class Solution {
+public:
+    bool checkOverlap(int radius, int xcenter, int ycenter, int x1, int y1, int x2, int y2) {
+        
+       // require to find the nearest point to circle 
+       // we check the position of the circle in form of x cordinate comparision 
+       //we check the center of circle is lie on which side of the rectangle 
+       //according to the side of we find the closest point
+
+       int xclosest=max(x1,min(x2,xcenter));
+       int yclosest=max(y1,min(y2,ycenter));
+       
+       int X=xclosest-xcenter;
+       int Y=yclosest-ycenter;
+
+       int d=sqrt(pow(X,2)+pow(Y,2));
+
+       if(d <= radius)return true;
+       return false;
+
+       
+    }
+};

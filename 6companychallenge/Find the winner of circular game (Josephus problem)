@@ -1,0 +1,62 @@
+/*Intuition
+point to be notice here
+
+Its a circular problem so here modulus is used to maintain the iteration to a range
+It is similar to josephus problem
+Approach
+it can be done using either iterative way or recursive way
+we make an array iterate over which for k friend when it reache it target index then remove that element.
+we do unitl the 1 element is left in the array
+this method have time complexity near to o(n2) in worst case beacuse we maintain an array and deleting the element which has time complexity of o(n) and we do it for every iteration which make it o(n2)in worst case.
+Complexity
+Time complexity:
+ O(n2) in worst case
+Space complexity:
+ o(n)
+*/
+
+Code
+class Solution {
+public:
+    
+    int solve(int n,int k)
+    {
+        if(n==1)
+        return 0;
+
+        return (solve(n-1,k)+k)%n;
+    }
+    
+    int findTheWinner(int n, int k) 
+    {
+         return solve(n,k)+1;       
+    }
+};
+
+2nd method 
+
+we use recursion in this method we check is f(n) dependent on f(n-1);
+for n friend we have to add k loops;
+class Solution {
+public:
+    
+    int solve(int n,int k)
+    {
+        if(n==1)
+        return 0;
+
+        return (solve(n-1,k)+k)%n; // so it remain in the range of n 
+    }
+    
+    int findTheWinner(int n, int k) 
+    {
+         return solve(n,k)+1;       
+    }
+};
+
+
+
+
+
+
+

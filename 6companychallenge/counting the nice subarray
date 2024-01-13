@@ -1,0 +1,33 @@
+class Solution {
+public:
+  
+    int numberOfSubarrays(vector<int>& nums, int k) 
+    {
+        vector<int>num;
+        unordered_map<int,int>mp;
+
+        for(int i=0;i<nums.size();i++)
+         {
+             if(nums[i]&1)
+             num.push_back(1);
+             else
+             num.push_back(0);
+         }
+         
+         int count=0;
+         int prefixsum=0;
+         mp[0]=1;
+        for(int i=0;i<num.size();i++)
+        {
+            prefixsum+=num[i];
+
+            if(mp.find(prefixsum-k)!=mp.end())
+            count+=mp[prefixsum-k];
+
+            mp[prefixsum]++;
+        }
+
+         return count;
+
+    }
+};

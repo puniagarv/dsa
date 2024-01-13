@@ -1,0 +1,53 @@
+Intuition
+here constraint are so small so we can construct all the subarray possible then by removing the possible array we can check is it possible to construct or not.if constraint are large then we use other optimise method
+Approach
+we find the upto which point the element are increases and also find the index upto which element are decreases
+we have two pointer which tells upto which index array is increases.
+we try to remove those subarray which lies between them and check for the rest part.
+Complexity
+Time complexity:
+o(n2*n) //n2 for computing the subarray and o(n) for checking the remaining part satisfy the consition or not
+
+Space complexity:
+o(1)
+Code
+class Solution {
+public:
+    bool check(vector<int>&temp)
+    {
+        for(int i=1;i<temp.size();i++)
+        {
+            if(temp[i-1] >= temp[i])return false;
+        }
+        return true;
+    }
+
+    int incremovableSubarrayCount(vector<int>& nums) 
+    {   
+        int count=0;
+        for(int i=0;i<nums.size();i++)
+        {  
+            
+            for (int j=i;j<nums.size();j++)
+            {   
+                vector<int>temp;
+                for(int k=0;k<i;k++)
+                {
+                    temp.push_back(nums[k]);
+                }
+                for(int k=j+1;k<nums.size();k++)
+                {
+                    temp.push_back(nums[k]);
+                }
+
+                if(check(temp))count++;
+               
+            }
+             
+        }
+        return count;      
+    }
+
+};
+
+// this is the optimise code o(n) here we use the two pointer approach

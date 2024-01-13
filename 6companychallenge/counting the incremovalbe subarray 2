@@ -1,0 +1,71 @@
+class Solution {
+public:
+    
+    // int upper(vector<int>&nums,int rightindex,int val)
+    // {
+    //    int l=rightindex;
+    //    int h=nums.size()-1;
+    //    int ans=-1;
+
+    //    while(l <= h)
+    //    {
+    //        int mid=l+(h-l)/2;
+
+    //        if(nums[mid] > val)
+    //        {
+    //            ans=mid;
+    //            h=mid-1;
+    //        }
+    //        else
+    //         l=mid+1;
+           
+    //    }
+    //    return ans;
+    // }
+
+    long long incremovableSubarrayCount(vector<int>& nums) 
+    {
+        int leftindex=0;
+        int n=nums.size();
+        int rightindex=n-1;
+
+        for(int i=1;i<n;i++)
+        {
+            if(nums[i] <= nums[i-1] )
+            break;
+            
+            leftindex=i;
+        }
+
+        for(int i=n-2;i>=0;i--)
+        {
+            if(nums[i+1] <= nums[i])
+            break;
+
+            rightindex=i;
+        }
+        cout<<leftindex<<" "<<rightindex;
+
+        if(leftindex==n-1)return n*(n+1)/2;
+        long long int count=n-rightindex+1;
+
+        for(int i=0;i<=leftindex;i++)
+        {    
+           for(int j=rightindex;j<n;j++)
+           {
+               if(nums[i] < nums[j])
+               { 
+                 count+=n-j;
+                 break;
+
+               }
+           }
+           count++;
+                    
+         
+        }
+        return count;
+    }
+};
+
+// using the 2 pointer approach

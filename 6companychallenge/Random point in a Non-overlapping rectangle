@@ -1,0 +1,79 @@
+Total number of points possible in a given boundary of rectangle = (h+1)*(w+1);(h is heigt && w is width)
+
+first task to point to total number of points possible for the given set of rectangle then choose random point from the set
+find and storing the each point is take high space complexity so we use some optimesed to find the point.
+Approach
+
+find the total point possible as prefix sum and then use rand fuction to generate a point among this points and then try to find matching rectangle for that point using the binary search
+for example: set of rectangle point [-2, -2, 1, 1], [2, 2, 4, 6]
+
+find the total point for the given input
+total points=(h1+1)(w1+1)+(h2+1)(w+1)=31
+
+16 points for first rectangle and 15 for second
+call the rand function to generate a random point among 31 points
+  
+16 31 find the position of the point using the binary search
+
+after find the matching rectangle then do for x=(pointindex)%width of rectangle
+
+y=(pointindex)/width
+
+Complexity
+Time complexity:
+the time complexity of the constructor is O(N), and the time complexity of the pick method is O(logN).
+
+Space complexity:
+ o(n)
+Code
+class Solution {
+public:
+    vector<int>points;
+    vector<vector<int>>temp;
+    int tp;
+
+    Solution(vector<vector<int>>& rects) 
+    { 
+        temp=rects;
+        tp=0;
+
+        for(auto it:rects)
+        {
+            tp+=(it[2]-it[0] + 1)*(it[3]-it[1] + 1);
+            points.push_back(tp);
+        }
+       
+    }
+    
+    vector<int> pick() 
+    {   
+        int r=rand()%tp;
+
+        int l=0,h=temp.size()-1;
+
+        while(l < h)
+        {
+            int mid=l+(h-l)/2;
+
+            if(points[mid] <= r)l=mid+1;
+            else h=mid;
+        }
+        
+        int width=temp[l][2]-temp[l][0]+1;
+        int height=temp[l][3]-temp[l][1]+1;
+
+        int totalpoint=width*height;
+
+        int length=points[l]-totalpoint;
+        int pointindex=r-length;
+
+        return { temp[l][0] + pointindex%width , temp[l][1] + pointindex/width};
+
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(rects);
+ * vector<int> param_1 = obj->pick();
+ */

@@ -1,0 +1,75 @@
+Intuition
+here question ask the shortest distance between alll pair possible in a graph so we use the flyod warshell algorithm
+
+Approach
+simple approach just make the distance matrix possible between all pair in the graph and then try to find the minimum distance between all pair by considering each node one by one.
+
+Complexity
+Time complexity:
+o(n3)//n is the no of vertices
+Space complexity:
+o(n2)
+Code
+class Solution {
+public:
+
+    int findTheCity(int n, vector<vector<int>>& edges, int d) 
+    {
+       vector<vector<int>>cost(n,vector<int>(n,INT_MAX));
+
+       for(int i=0;i<edges.size();i++)
+       {   
+           int x=edges[i][0];
+           int y=edges[i][1];
+           int w=edges[i][2];
+           
+           cost[x][y]=w;
+           cost[y][x]=w;
+       }
+
+       for(int i=0;i<n;i++)
+       cost[i][i]=0;
+
+       for(int k=0;k<n;k++)
+       {
+           for(int i=0;i<n;i++)
+           {
+               for(int j=0;j<n;j++)
+               {
+                if(cost[i][k]==INT_MAX || cost[k][j]==INT_MAX)continue;
+
+                cost[i][j]=min(cost[i][j],cost[i][k]+cost[k][j]);
+               }
+           }
+       }  
+
+       int city=-1;
+       int ans=n;
+
+       for(int i=0;i<n;i++)
+       {   
+           int count=0;
+
+           for(int j=0;j<n;j++)
+           {
+              if(cost[i][j] <= d)
+               count++;
+
+           }
+
+           if(count <= ans)
+           {
+               ans=count;
+               city=i;
+           }
+         
+
+       }
+
+       return city;
+
+       
+     
+
+    }
+};

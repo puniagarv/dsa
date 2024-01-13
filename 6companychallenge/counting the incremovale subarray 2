@@ -50,4 +50,4 @@ public:
 
 };
 
-// this is the optimise code o(n) here we use the two pointer approach
+

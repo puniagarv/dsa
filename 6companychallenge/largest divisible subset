@@ -1,0 +1,51 @@
+/* it can be think  like the lis just sort the array and check if element is divisble by all the element present in the set
+ */
+
+class Solution {
+public:
+
+    vector<int> largestDivisibleSubset(vector<int>& arr) 
+    {
+        // now we used the dp as to store the vector 
+
+        int n=arr.size();
+        vector<vector<int>>dp;
+        
+       sort(arr.begin(),arr.end());
+
+       for(auto it:arr)
+       {
+           dp.push_back({it});
+       }
+
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(arr[i]%arr[j]==0)
+                {
+                    if(dp[i].size() < dp[j].size()+1)
+                    {   
+                        dp[i]=dp[j];
+                        dp[i].push_back(arr[i]);
+                    }
+                }
+            }
+        }
+
+        vector<int>ans;
+
+        for(auto it:dp)
+        {
+            if(it.size() > ans.size())
+            {
+                ans=it;
+            }
+
+        }
+
+        return ans;
+
+    }
+};

@@ -1,0 +1,32 @@
+/* using the bit manipulation method check at every node reperesnt the frequency in the form of binary where 1 represnt the
+  od frequency and 0 represent the even frequency and i know for the palindromic there atmost only one element present for the palindromic
+  */
+
+  class Solution {
+public:
+   
+    void solve(TreeNode* root,int path,int &ans)
+    {
+       if(root==NULL)return;
+       if(root!=NULL)
+       {    path = (path ^ (1 << root->val));
+           if(root->left==NULL && root->right==NULL)
+           {
+              if((path & (path-1))==0)ans++;// it is used to check the setbit in the path is one or not which is tell about the number of odd frquency
+           }
+       } 
+
+       solve(root->left,path,ans);
+       solve(root->right,path,ans);
+
+    }
+
+    int pseudoPalindromicPaths (TreeNode* root) 
+    {
+       int ans=0;
+       solve(root,0,ans);
+       return ans;
+        
+    }
+
+};

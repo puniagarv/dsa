@@ -1,0 +1,126 @@
+class Solution {
+public:
+    int mod=1e9+7;
+
+    // int kpair(int n,int k,vector<vector<int>>&dp)
+    // {
+    //     if(k==0)return 1;
+    //     if(n==0)return 0;
+        
+    //     if(dp[n][k]!=-1)return dp[n][k];
+
+    //     int count=0;
+
+    //     for(int i=0;i<=min(n-1,k);i++)
+    //     {
+    //       count=(count%mod+kpair(n-1,k-i,dp)%mod)%mod;
+    //     }
+
+    //     return dp[n][k]=count;
+
+    // }
+
+ //--- method 2 
+
+    // int bottom_up(int n,int k)
+    // {
+    //     vector<vector<int>>dp(n+1,vector<int>(k+1,0));
+
+    //     for(int i=1;i<=n;i++)
+    //     {
+    //         for(int j=0;j<=k;j++)
+    //         {
+    //             if(j==0)
+    //             {
+    //                dp[i][j]=1;
+    //                continue;
+    //             }
+
+    //             for(int x=0;x<=min(i-1,j);x++)
+    //             {
+    //                 dp[i][j]=(dp[i][j]%mod+dp[i-1][j-x]%mod)%mod;
+    //             }
+    //         }
+    //     }
+    //     return dp[n][k];
+    // }
+
+//---method 3 optimised one
+ 
+/*
+    int bottom_up_opt(int n,int k)
+    {
+        vector<vector<int>>dp(n+1,vector<int>(k+1,0));
+        
+        dp[0][0]=1;
+
+        for(int i=1;i<=n;i++)
+        {
+           for(int j=0;j<=k;j++)
+           {
+              if(j==0)
+              {
+                dp[i][j]=1;
+                continue;
+              }
+
+              dp[i][j]=(dp[i-1][j]%mod+dp[i][j-1]%mod)%mod;
+
+              if(j >= i)
+              dp[i][j]=(dp[i][j]-dp[i-1][k-i]+mod)%mod;
+
+           }
+
+        }
+
+        return dp[n][k];
+
+    }   
+*/
+
+// method 4 optimised ++
+
+
+    int bottom_up_opt(int n,int k)
+    {
+        vector<int>dp(k+1,0);
+        vector<int>prevdp(k+1,0);
+        
+        prevdp[0]=1;
+
+        for(int i=1;i<=n;i++)
+        {
+           for(int j=0;j<=k;j++)
+           {
+              if(j==0)
+              {
+                dp[j]=prevdp[j]=1;
+                continue;
+              }
+
+              dp[j]=(prevdp[j]%mod+dp[j-1]%mod)%mod;
+
+              if(j >= i)
+              dp[j]=(dp[j]-prevdp[j-i]+mod)%mod;
+
+           }
+           prevdp=dp;
+
+        }
+
+        return dp[k];
+
+    }   
+ 
+  
+
+
+    int kInversePairs(int n, int k) 
+    {
+        vector<vector<int>>dp(n+1,vector<int>(k+1,-1));
+
+        // return kpair(n,k,dp);    // ----method 1 top down approach;
+        // return bottom_up(n,k);   //  ---method 2 bottom up approach;
+        // return  bottom_up_opt(n,k); // ---method 3 optimised bottom up approach
+    }
+};

@@ -1,0 +1,101 @@
+class Solution {
+public:
+   /* int majorityElement(vector<int>& nums) // method 1 using the map
+    {  
+        unordered_map<int,int>mp;
+        int n=nums.size();
+
+        for(auto it:nums)
+        {
+           mp[it]++;
+
+           if(mp[it] > n/2)
+           return it;
+
+        }
+
+      return -1;
+    }
+    */
+  
+//    int majorityElement(vector<int>& nums) // method 2 using the sorting method
+//   {
+//      // first sort the element
+
+//      /*   x x x _ _ _ n=6 x is majority element so we try to find the possible places for x
+          
+//           _ _ _ x x x 
+
+//           _ x x x _ _
+
+//      every time x appears in the middle so majority elemen appear in the middle for count > n/2
+//      */
+     
+//     sort(nums.begin(),nums.end());
+
+//     int n=nums.size();
+
+//     return nums[n/2];
+
+//      // here tc is o(nlogn)
+//      //s.c o(1)
+
+//      // we have to optimised this method using the bitmaskig
+
+//   }
+
+// int majorityElement(vector<int>& nums) //method 3 using the bitmasking
+// {
+//     // using the bitmasking it reduces the t.c to nearly constant we check for bit  count of every element if ith bit comes more than n/2 then it can
+//     // contribute to majority element
+
+//     // t.c o(n logc) where we check for each element which has range 1e9 which is nearly o(32*n)
+//     // s.c o(1)
+
+
+//     vector<int>bit(32,0); // for every element we check the set bit for majority element setbitcount must be greater the n/2
+//     int ans=0;
+//     int size=nums.size();
+
+//     for(int i=0; i < 32 ; i++)
+//     {   
+//         int mask = 1 << i;
+//         int bitcount=0;
+
+//         for(auto it:nums)
+//         {
+//            if(it & mask)
+//             bitcount++;
+//         }
+      
+//        if(bitcount  > size/2)
+//        ans|=mask; //  construct the majority element which ocntribute in th setbit
+
+//     }
+
+//     return ans;
+
+// }
+
+
+int majorityElement(vector<int>& nums) // method 4 using the boyer-moore maority element
+{
+    int count=0;
+    int ans=0;
+
+    for(auto it:nums)
+    {
+        if(count==0)
+        {
+            ans=it;
+        }  
+
+        count+= (ans==it)? 1 : -1;
+    }
+
+    return ans;
+}
+
+
+
+};

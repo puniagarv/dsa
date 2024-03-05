@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int minimumLength(string s) 
+    {
+        int i = 0;
+        int j = s.size()-1;
+
+        while(i < j)
+        {
+            int prefix = s[i];
+            int suffix = s[j];
+          
+            if(prefix==suffix)
+            {  
+               if(j-i == 1)return 0; 
+               while(i < j && s[i]==prefix)i++;
+               while(j >= i && s[j]==suffix)j--;
+            }
+            else
+            break;
+        }
+
+       return j-i+1;
+     
+    }
+};
+
+//o(n)

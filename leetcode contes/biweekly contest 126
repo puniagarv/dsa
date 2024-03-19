@@ -1,0 +1,183 @@
+//problem 1
+// Find the Sum of Encrypted Integers
+class Solution {
+public:
+    int sumOfEncryptedInt(vector<int>& nums) 
+    {
+        int n = nums.size();
+        int sum  = 0;
+        
+        for(int i = 0; i < n ;i++)
+        {
+            int number = nums[i];
+            int maxi = INT_MIN;
+            int count_digit = 0;
+            
+            while(number  > 0)
+            {
+                int mod = number%10;
+                
+                maxi = max(mod,maxi);
+                
+                count_digit++;
+                
+                number/=10;
+            }
+            
+            string s;
+            while(count_digit--)
+            {
+                s.push_back(maxi+'0');
+            }
+            
+            int temp = stoi(s);
+            sum+=temp;
+            
+            
+        }
+        
+        return sum;
+    }
+};
+
+
+// problem 2
+//Mark Elements on Array by Performing Queries
+class Solution {
+public:
+    vector<long long> unmarkedSumArray(vector<int>& nums, vector<vector<int>>& queries) 
+    {  
+        int n = nums.size();
+
+        vector<long long int>ans;
+        
+        unordered_map<int,int>mp;
+        
+      long long  int sum = 0;
+        
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        
+        for(int i = 0 ; i < n ; i++)
+        {
+            sum+=nums[i];
+            pq.push({nums[i],i});
+        }
+        for(auto it : queries)
+        {
+            int index = it[0];
+            int k = it[1];
+            
+            if(mp.find(index)==mp.end())
+            {
+                sum-=nums[index];
+                mp[index]=1;
+                
+                
+                cout<<nums[index]<<" "<<index<<endl;
+            }
+            
+            while(k > 0 && !pq.empty())
+            {
+                auto it1 = pq.top();
+                pq.pop();
+                
+                int indexi = it1.second;
+                int value = it1.first;
+                
+              if(mp.find(indexi)==mp.end())
+               {
+                    sum-=value;
+                    mp[indexi]=1;
+                    k--;
+                  
+                  cout<<value<<" "<<indexi<<endl;;
+                     
+               }
+               
+            }
+            cout<<endl;
+            ans.push_back(sum);
+        }
+        
+        return ans;
+    }
+};
+
+// problem 3
+//Replace Question Marks in String to Minimize Its Value
+
+class Solution {
+public:
+    string minimizeStringValue(string s) 
+    {   
+       
+        unordered_map<char,int>mp;
+        
+        priority_queue<pair<int,char>,vector<pair<int,char>>,greater<pair<int,char>>>pq;
+        
+        for(auto it : s)
+        {  
+            if(it!='?')
+             mp[it]++;
+        }
+        
+        for(char c = 'a' ; c <='z' ; c++)
+        {
+            pq.push({mp[c],c});
+        }
+        
+        string temp;
+        
+        for(auto it : s)
+        {
+            if(it=='?' && !pq.empty())
+            {  
+              
+                      auto it1 = pq.top();
+                      pq.pop();
+                
+                        temp.push_back(it1.second);
+                
+                     mp[it1.second]++;
+                     pq.push({mp[it1.second],it1.second});    
+            }
+            else
+            {
+                temp.push_back(it);
+            }
+        }
+        
+        string ans;
+        
+        for(int i = 0; i < s.size() ; i++)
+        {
+            if(s[i]=='?')
+            {
+                ans.push_back(temp[i]);
+            }
+        }
+        
+       sort(ans.rbegin(),ans.rend());
+        
+        
+       string t;
+        
+        for(auto it : s)
+        {
+            if(it=='?')
+            {  
+                t.push_back(ans.back());
+                ans.pop_back();
+              
+            }
+            else
+                t.push_back(it);
+        }
+            
+        return t;
+        
+        
+    }
+};
+
+

@@ -1,0 +1,99 @@
+//TASK SECHDULER
+// is question to approach se kra jaa skta h 
+// 1 by using greedy method jisme hm maximum frequency of element k basis pe elements ko arrange krenge then we arrange the element and try to reduce the ideal cases
+// 2 by using the priority queue jisme hm hm dekhenge ki jo element maximum frequency ka h usko phle reduced krne ki kosis krenge after usko fir s queue me dalenge if there is frequency left
+
+// 1 method t.c o(26)+o(nlong) if use the sorting
+/* 2 method have t.c nearly o(n2) in worst case
+   1 . o(n) for all iteration
+   2. o(n) in worst case for iterating over the priority queue
+   3. o((n+1)*log(m)) for each iteration we moved to n+1 size and check for m unique character in worst m is 26 which is constant
+   4 overall t.c o(n^2) in worst case scenerio
+*/
+
+class Solution {
+public:
+    // using the priority queue
+    int method1(std::vector<char>&tasks,int n)
+    {
+         vector<int>freq(26,0);
+       
+       priority_queue<int>pq;
+       
+       int count = 0;
+
+       for(auto it : tasks)
+       {
+         freq[it -'A']++;
+       }
+
+       for(auto it : freq)
+       {
+         if(it > 0)
+         pq.push(it);
+       }
+       
+       while(!pq.empty())
+       {  
+          int temp = n+1;
+          vector<int>v;
+          
+          for(int i = 1 ; i <= n+1 ;i++)
+          {
+             if(!pq.empty())
+             {
+                int f = pq.top();
+                pq.pop();
+                f--;
+                v.push_back(f);
+             }
+          }
+
+          for(auto it : v)
+          {
+             if(it > 0)
+             pq.push(it);
+          }
+
+          if(pq.empty())
+          count+=v.size();
+          else
+          count+=temp;
+          
+       }
+
+       return count;
+    }
+
+    //using the greedy method
+
+    int method2(std::vector<char>&tasks,int n)
+    {
+        // we can arrange the element on the basis of the maximum frequency element
+        // we try to reduce the idl cases
+       
+       vector<int>freq(26,0);
+       for(auto it : tasks)
+       {
+        freq[it-'A']++;
+       }
+
+       sort(freq.begin(),freq.end(),greater<int>());
+
+      int ideal = (freq[0]-1)*n;
+
+       for(int i = 1 ; i < 26 ; i++)
+       {
+         ideal = ideal-min(freq[i],freq[0]-1);
+       }
+
+       return tasks.size() + max(0,ideal);
+
+
+    }
+    int leastInterval(std::vector<char>& tasks, int n) 
+    {
+      
+        return method2(tasks,n);
+    }
+};

@@ -1,0 +1,188 @@
+// learn the concept LL conecpt 
+/*
+1. using the slow and fast pointer we can find the mid of ll in o(n) without using any extra space
+2. To reverse a linked 
+3. check a ll is a plaindrome or not
+4. All these conecpt are used today's potd
+
+let's check all of them one by one
+
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+/* 1 ist concept
+-------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) 
+    {   
+        if(head==NULL)return NULL;
+
+        ListNode * slow = head;
+        ListNode * fast = head->next;
+      
+      // 2s = 2d/t if sped is 2 time then distance will be 2 time
+
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        if(fast==NULL)
+        return slow;
+
+        return slow->next;
+
+    }
+};
+
+-------------------------------------------------------------------------------------------------------------------------
+
+/*
+
+ palindromic of linked list using the recursion
+ -------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) 
+    {
+     
+     // hme pat h plaindrome tb hgi jb aage se or piche se element equal honge to half k baad waalo ko reverse krlo phir
+    //  picche se iterate kra do kisi bhi point of agar equal nhi ati h to return false
+    
+    if(head==NULL)return true;
+
+    ListNode * slow = head;
+    ListNode *fast = head->next;
+
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    ListNode * p =NULL;
+    ListNode * q = slow;
+    ListNode * r = NULL;
+
+    while(q!=NULL)
+    {
+        r = q->next;
+        q->next = p;
+        p = q;
+        q = r;
+    }
+    
+    ListNode *h1 = head;
+    ListNode *h2 = p;
+
+    while(h2!=NULL && h1!=NULL)
+    {
+        if(h1->val !=h2->val)return false;
+
+        h1 = h1->next;
+        h2 = h2->next;
+    }
+
+    return true;
+    
+     
+    }
+};
+
+ -------------------------------------------------------------------------------------------------------------------------
+
+*/
+
+
+
+///**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) return;
+
+        // Finding the middle of the list
+        ListNode *slow = head, *fast = head;
+        while (fast->next != nullptr && fast->next->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Reversing the second half of the list
+        ListNode *prev = nullptr, *curr = slow->next, *next;
+        slow->next = nullptr; // Breaking the list into two halves
+        while (curr != nullptr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        // Merging the two halves of the list
+        ListNode *first = head, *second = prev, *temp;
+        while (second != nullptr) {
+            temp = first->next;
+            first->next = second;
+            first = temp;
+
+            temp = second->next;
+            second->next = first;
+            second = temp;
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,193 @@
+//problem 1 ------------------
+class Solution {
+public:
+    int maximumLengthSubstring(string s) 
+    {
+        int i = 0;
+        int j = 0;
+        
+        vector<int> v(26,0);
+        int ans = 0;
+       
+        while(j < s.size())
+        {
+            v[s[j]-'a']++;  // Increase the count of the character
+            // If any character count exceeds 2, move the window forward
+            while(v[s[j]-'a'] > 2)
+            {
+                v[s[i]-'a']--;  // Decrease the count of characters going out of the window
+                i++;            // Move the window forward
+            }
+            ans = max(ans, j - i + 1);  // Update the maximum length of the substring
+            j++;  // Expand the window
+        }
+        
+        return ans;
+    }
+};
+
+// problem 2 ---------------------------------------
+
+good question in this simply we increase first and doube it until we reach our goal in minimum operation
+we check this for every value from 1 to k check the operation
+
+greedy apraoch
+
+class Solution {
+public:
+    int minOperations(int k) 
+    {   
+        int ans = INT_MAX;
+        
+        if(k==1)return 0;
+         
+        
+        for(int i = 1 ; i <= k ; i++)
+        {
+           int temp = i;
+           
+           int op = k-temp;
+
+           if(op%temp)
+            ans = min(ans,(temp+ op/temp));
+           else
+            ans = min(ans, (temp-1) + op/temp);
+        }
+
+        return ans;
+        
+    }
+};
+
+
+//problem 3------------------------------------------------
+
+class Solution {
+public:
+
+   // ye question assan h but isme bs ye dekhna h ki jb bhi hm element ki freq update kr rhe h check kr lo wo phle appear hua h ya nhi
+   // agar wo phle appear hua h then just removed it and update its frequency 
+   // you can use the priority queue and set or multiset
+   
+
+   /* ----------------------------------- 1 method ----------------------------------------------*/
+
+    vector<long long int> method1(vector<int>&nums,vector<int>&freq)
+    {
+        priority_queue<pair<long long int, long long int>> pq;       
+        unordered_map<int,long long int>mp;
+
+        vector<long long int >ans;
+
+        for(int i = 0; i< nums.size() ; i++)
+        {
+            mp[nums[i]]+=freq[i];
+
+            pq.push({mp[nums[i]],nums[i]});
+
+            while(!pq.empty())
+            {
+                auto it = pq.top();
+
+                if(mp[it.second]!=it.first)
+                {
+                    pq.pop();
+
+                    if(mp[it.second])
+                    pq.push({mp[it.second],it.second});
+                }
+                else
+                break;
+            }
+
+            ans.push_back(pq.top().first);
+
+
+        }
+
+        return ans;
+    }
+
+
+   /* ----------------------------------- 2 method ----------------------------------------------*/
+    
+    // using the set
+
+    vector<long long int> method2(vector<int>&nums,vector<int>&freq)
+    {   
+        unordered_map<int ,long long int>mp;
+
+        set<pair<long long int,long long int>>s;
+
+        vector<long long int>ans;
+
+        for(int i = 0; i < nums.size() ; i++)
+        {
+            int ele = nums[i];
+            int f = mp[nums[i]];
+            
+            mp[nums[i]]+=freq[i];
+
+            if(s.find({f,ele})!=s.end())
+            {
+               s.erase({f,ele});
+            }
+
+            if(mp[nums[i]] >= 0)
+            s.insert({mp[nums[i]],nums[i]});
+
+            if(!s.empty())
+            {
+                ans.push_back(s.rbegin()->first);
+            }
+        }
+
+        return ans;
+    }
+   
+
+    /* ----------------------------------- 3 method ----------------------------------------------*/
+    // using the multiset
+
+   vector<long long int > method3(vector<int>&nums,vector<int>&freq)
+   { 
+      unordered_map<int,long long int>mp;
+
+      vector<long long int > ans;
+
+      multiset<long long int >s;
+
+      for(int  i = 0; i < nums.size() ; i++)
+      {
+         int f = mp[nums[i]];
+
+         if(s.find(f)!=s.end())
+         s.erase(s.find(f));
+
+         mp[nums[i]]+=freq[i];
+
+         if(mp[nums[i]] > 0)
+         s.insert(mp[nums[i]]);
+
+         if(!s.empty())
+         ans.push_back(*s.rbegin());
+         else
+         ans.push_back(0);
+
+      }
+
+      return ans;
+
+   }
+
+    vector<long long> mostFrequentIDs(vector<int>& nums, vector<int>& freq) 
+    {
+        // method 1
+        // return method1(nums,freq);
+
+        // method 2
+        // return method2(nums,freq);
+
+        return method3(nums,freq);
+    }
+};

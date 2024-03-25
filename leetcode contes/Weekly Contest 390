@@ -60,6 +60,32 @@ public:
 };
 
 
+    int method2(int k)
+    {
+        // we are performing two operation one of increasing and doubling
+        // let we have a is the element in the array we increase it a+1
+        // now time to double it until to reach k let it require b step to reach
+
+        // it means  (a+1)+(a+1)*b >= k;
+
+        // we use the  maths to compute the ans in o(1)
+        // a*b + (a+b) + 1 >=k  we can minimze the a+b and maximimze the a*b so that we can reach the k
+        //  a*b is maximum when a and b are near value let take a = b now remember our final maksad is to minimize the a+b but we have to maximize the a*b
+        // so take a = b;
+        //  a = ceil[sqrt(k)]-1;
+        // b = ceil(k/a+1)-1;
+
+
+        int a = ceil(sqrt(k))-1;
+        int b = ceil((k*1.0)/(a+1))-1;
+
+        return a+b;
+
+    //  t.c o(1);
+
+    }
+
+
 //problem 3------------------------------------------------
 
 class Solution {

@@ -1,0 +1,126 @@
+/* -------------------------------------1 question is very easy maths and logic -----------------------------------------------
+class Solution {
+  public:
+    int equality(int a, int b) 
+    {
+        // code here
+        
+        if(b==a)return 1;
+        
+       if( b&1 || b < a)return 0;
+       
+       
+       return 1;
+       
+    }
+};
+*/
+
+/* -------------------------------------2 question slightly trick using of bit manipulation -----------------------------------
+(* approach :--- it want the maximum sum so check for every bit for array element if it is set or not in given range of query if it is set in that range then in final x it must bit set *)
+
+class Solution {
+  public:
+   vector<int> BeautifulBits(int n, vector<int> &arr, int q, vector<vector<int>> &queries) 
+   {
+      vector<int>prefixsum;
+      
+      // we want the maximum so we take every bit which is set in range
+      
+      
+      vector<vector<int>>prefix(n+1,vector<int>(32,0));
+      
+      vector<int>ans;
+      
+      for(int i = 1; i <= n ; i++)
+      {   
+          int ele = arr[i-1];
+          
+          for(int j = 0 ; j < 32 ; j++)
+          {
+              if(((ele >> j) & 1)==1)
+              prefix[i][j] = prefix[i-1][j]+1;
+              else
+              prefix[i][j] = prefix[i-1][j];
+          }
+          
+      }
+      
+      for(auto it : queries)
+      {
+          int l = it[0];
+          int r = it[1];
+          int x = 0;
+          
+          for(int i = 0; i < 32 ; i++)
+          {
+             if(prefix[r][i]-prefix[l-1][i] > 0)
+              x+=(1<<i);
+          }
+          
+          ans.push_back(x);
+          
+      }
+      
+      return ans;
+   t.c   o(n*32)
+   
+          (* In this question we used the concept of prefix sum concept *)
+   }
+
+   
+*/
+(*------------------------------------------------3 question is very beautiful question it required the concept of differenc array----------------------- *)
+/*    public:
+    long long ForYou(int n, vector<int> &arr, int m, vector<vector<int>> &order)
+    {
+        //Code Here
+        
+        // bhut acha question h agar intution ki baat kre to isme kuch nhi bss jo index most of the time visited h waha pe maximum value aa jayegi
+        // now agar hme most visited index nikalna h to uske liye ya to hm fenwick tree ka concept use kr skte ya ye following approach kr skte h
+        
+     
+        /*--------------------approach follow to find the index --------------------------------
+        
+            index is a vector from l to r where l is the minimum and r is maximum 
+            
+            {l,r} == make index[l]++ and index[r+1]-- then take the prefix sum 
+            
+        */  
+        
+        vector<long long int>temp(n+1,0);
+        
+        long long int mod = 1e9+7;
+        
+        long long int ans = 0;
+        
+        for(auto it : order)
+        {
+            int l = it[0]-1;
+            int r = it[1]-1;
+            
+            temp[l]++;
+            temp[r+1]--;
+        }
+        
+        for(int i = 1 ; i <=n ;i++)
+        {
+            temp[i]+= temp[i-1];
+        }
+
+        sort(arr.begin(),arr.end());
+        
+        sort(temp.begin(),temp.end());
+        
+        for(int i = n-1 ; i >= 0 ;i--)
+        {
+           ans=(ans+(((temp[i+1]%mod)*(arr[i])%mod))%mod)%mod; 
+        }
+        
+        return ans%mod;
+        
+    }
+};
+*/
+
+
